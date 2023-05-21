@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 public enum PIPEIMAGE {
+    // 以下是直接用路徑拿圖，這樣就可以只拿一次
     STRAIGHT_PIPE(new ImageIcon("src/img/pipeImage/straightPipe.png")),
     STRAIGHT_PIPE_WITH_WATER(new ImageIcon("src/img/pipeImage/straightPipeWithWater.png")),
     BENT_PIPE(new ImageIcon("src/img/pipeImage/bentPipe.png")),
@@ -25,17 +26,21 @@ public enum PIPEIMAGE {
     DOWN_IN_WATER_STORE_WITH_WATER(new ImageIcon("src/img/pipeImage/downInWaterStoreWithWater.png")),
     LEFT_IN_WATER_STORE_WITH_WATER(new ImageIcon("src/img/pipeImage/leftInWaterStoreWithWater.png"));
 
+    // 這個 enum 會有一個 imageIcon 的 attribute
     private ImageIcon image;
 
+    // enum 的建構子，參數就直接是所屬的圖片了
     private PIPEIMAGE(ImageIcon image) {
         this.image = image;
     }
 
+    // 根據需要的角度、大小，進行旋轉和縮放再回傳圖片
     public ImageIcon getImage(int angle, int width, int height) {
         return scaledIcon(rotateIcon(this.image, angle), width, height);
     }
 
-    private ImageIcon rotateIcon(ImageIcon icon, int angle) {// 旋轉圖片直到特定角度
+    // 旋轉圖片直到特定角度
+    private ImageIcon rotateIcon(ImageIcon icon, int angle) {
         // 創建一個 BufferedImage 來儲存旋轉後的圖像
         BufferedImage rotatedImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
@@ -63,7 +68,8 @@ public enum PIPEIMAGE {
         return new ImageIcon(rotatedImage);
     }
 
-    private ImageIcon scaledIcon(ImageIcon icon, int width, int height) {// 縮放圖片直到特定大小
+    // 縮放圖片直到特定大小
+    private ImageIcon scaledIcon(ImageIcon icon, int width, int height) {
         // 從ImageIcon對象中獲取原始圖像
         Image img = icon.getImage();
 
