@@ -13,10 +13,11 @@ public class GameControlPanel extends JPanel {
     JButton restrartButton = new JButton("重新開始");
     JButton checkButton = new JButton("確認");
 
-    Component[] components = { lastRoundButton, nextRoundButton, restrartButton,
+    Component[] components = {lastRoundButton, nextRoundButton, restrartButton,
             checkButton };
 
     private void setEventLister() {
+
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,11 +90,11 @@ public class GameControlPanel extends JPanel {
     public GameControlPanel(Game game) {
         this.game = game;
         ControlPanel.setLayout(null);
-
-        lastRoundButton.setBounds(10, 450, 150, 70);
-        nextRoundButton.setBounds(164, 450, 150, 70);
-        checkButton.setBounds(10, 370, 150, 70);
-        restrartButton.setBounds(164, 370, 150, 70);
+        
+        lastRoundButton.setBounds(10, 370, 150, 70);
+        nextRoundButton.setBounds(164, 370, 150, 70);
+        checkButton.setBounds(10, 450, 150, 70);
+        restrartButton.setBounds(164, 450, 150, 70);
 
         setEventLister();
 
