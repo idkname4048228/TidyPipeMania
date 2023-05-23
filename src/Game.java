@@ -212,6 +212,8 @@ public class Game {
 
     private void initEditPanel() {
         JPanel editPanel = gamePanel.getnowPanel();
+        editPanel.removeAll();
+        editPanel.revalidate();
         int elementWidth = editPanel.getWidth() / width;
         int elementHeight = editPanel.getHeight() / height;
 
