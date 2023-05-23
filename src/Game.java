@@ -1,9 +1,11 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
@@ -19,7 +21,13 @@ public class Game {
     boolean lastIsReady = false;
     boolean nextIsReady = false;
 
+    GameMap editGameMap;
+    boolean editMode = false;
+    int width;
+    int height;
+
     Game() {
+        editMode = false;
         makeMaps();
         bindPanel(maps.get(nowMapIndex), gamePanel.getnowPanel());
         if (nowMapIndex != 0) {
@@ -101,9 +109,15 @@ public class Game {
         }
     }
 
+    private GameMap getNowMap() {
+        if (editMode)
+            return editGameMap;
+        return maps.get(nowMapIndex);
+    }
+
     public void render() {
         JPanel panel = gamePanel.getnowPanel();
-        GameMap gameMap = maps.get(nowMapIndex);
+        GameMap gameMap = getNowMap();
         Component[] components = panel.getComponents();
 
         for (int row = 0; row < gameMap.height; row++) {
@@ -181,4 +195,42 @@ public class Game {
         return !nowGameMap.waste && nowGameMap.endWithWater();
     }
 
+    public void switchMode() {
+        editMode = !editMode;
+        gamePanel.switchMode();
+        width = 5;
+        height = 5;
+        initEditPanel();
+        editGameMap = new GameMap(width, height);
+    }
+
+    private void initEditPanel() {
+        JPanel editPanel = gamePanel.getnowPanel();
+        int elementWidth = editPanel.getWidth() / width;
+        int elementHeight = editPanel.getHeight() / height;
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                JLabel element = new JLabel();// 創建新的 JLabel
+                System.out.println(elementHeight + " " + elementWidth + " " + col + " " + row);
+                element.setBounds(elementWidth * col, elementHeight * row, elementWidth, elementHeight);// 計算 JLabel
+                                                                                                        // 在面板應所處的座標，及給定寬度及高度
+                editPanel.add(element);// 把 JLabel 加進面板
+                element.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        System.out.println("in");
+                        element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        System.out.println("out");
+                        element.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    }
+                });
+
+            }
+        }
+    }
 }

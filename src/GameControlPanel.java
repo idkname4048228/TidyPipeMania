@@ -21,7 +21,7 @@ public class GameControlPanel extends JPanel {
         switchModeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                return ;
+                game.switchMode();
             }
         });
 

@@ -18,6 +18,17 @@ public class GameMap {
     ArrayList<int[]> waterCoordinates;
     ArrayList<int[]> nextCoordinates;
 
+    GameMap(int width, int height){
+        for (int row = 0; row < height; row++){
+            ArrayList<Pipe> pipes = new ArrayList<>();
+            for(int col = 0; col < width; col++){
+                Pipe pipe = new Pipe("--");
+                pipes.add(pipe);
+            }
+            pipeMap.add(pipes);
+        }
+    }
+
     GameMap(ArrayList<ArrayList<String>> mapFile) {
         originalMapFile = mapFile;// 記住當前地圖檔
         // 初始化
