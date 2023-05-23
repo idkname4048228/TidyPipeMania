@@ -9,18 +9,38 @@ public class GameControlPanel extends JPanel {
     Font usingFont = new Font("微軟正黑體", Font.BOLD, 24);
 
     JButton switchModeButton = new JButton("切換模式");
+    boolean editMode = false;
+
     JButton lastRoundButton = new JButton("上一關");
     JButton nextRoundButton = new JButton("下一關");
     JButton restrartButton = new JButton("重新開始");
     JButton checkButton = new JButton("確認");
 
-    Component[] components = { switchModeButton, lastRoundButton, nextRoundButton, restrartButton,
-            checkButton };
+    JLabel strightPipe = new JLabel();
+    JLabel bentPipe = new JLabel();
+    JLabel tPipe = new JLabel();
+    JLabel crossPipe = new JLabel();
+    JLabel waterStorage = new JLabel();
+    JLabel waterStorageWithWater = new JLabel();
+
+    JButton appendRowButton = new JButton("增加行");
+    JButton removeRowButton = new JButton("刪除行");
+    JButton appendColButton = new JButton("增加列");
+    JButton removeColButton = new JButton("刪除列");
+    JButton deleteButton = new JButton("刪除");
+    JButton saveButton = new JButton("存檔");
+
+    Component[] problemComponents = { lastRoundButton, nextRoundButton, restrartButton, checkButton };
+    Component[] editLabels = { strightPipe, bentPipe, tPipe, crossPipe, waterStorage, waterStorageWithWater };
+    Component[] editComponents = { appendRowButton, removeRowButton, appendColButton, removeColButton, deleteButton,
+            saveButton, waterStorage, waterStorageWithWater };
 
     private void setEventLister() {
         switchModeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                editMode = !editMode;
+                switchMode();
                 game.switchMode();
             }
         });
@@ -94,19 +114,76 @@ public class GameControlPanel extends JPanel {
         });
     }
 
+    private void switchMode() {
+        if (editMode) {
+            for (Component component : problemComponents) {
+                ControlPanel.remove(component);
+                System.out.println("remove");
+            }
+            for (Component component : editComponents) {
+                ControlPanel.add(component);
+                System.out.println("add");
+            }
+            for (Component label : editLabels) {
+                ControlPanel.add(label);
+                System.out.println("add");
+            }
+
+        } else {
+            for (Component label : editLabels) {
+                ControlPanel.remove(label);
+                System.out.println("remove");
+            }
+            for (Component component : editComponents) {
+                ControlPanel.remove(component);
+                System.out.println("add");
+            }
+            for (Component component : problemComponents) {
+                ControlPanel.add(component);
+                System.out.println("add");
+            }
+
+        }
+        ControlPanel.revalidate();
+        ControlPanel.repaint();
+
+    }
+
     public GameControlPanel(Game game) {
         this.game = game;
         ControlPanel.setLayout(null);
-        
+
         switchModeButton.setBounds(10, 0, 304, 70);
         lastRoundButton.setBounds(10, 370, 150, 70);
         nextRoundButton.setBounds(164, 370, 150, 70);
         checkButton.setBounds(10, 450, 150, 70);
         restrartButton.setBounds(164, 450, 150, 70);
-        
+
+        strightPipe.setBounds(10, 80, 60, 60);
+        strightPipe.setIcon(PIPEIMAGE.STRAIGHT_PIPE.getImage(0, 60, 60));
+        bentPipe.setBounds(132, 80, 60, 60);
+        bentPipe.setIcon(PIPEIMAGE.BENT_PIPE.getImage(0, 60, 60));
+        tPipe.setBounds(254, 80, 60, 60);
+        tPipe.setIcon(PIPEIMAGE.T_PIPE.getImage(0, 60, 60));
+        crossPipe.setBounds(10, 150, 60, 60);
+        crossPipe.setIcon(PIPEIMAGE.CROSS_PIPE.getImage(0, 60, 60));
+        waterStorage.setBounds(132, 150, 60, 60);
+        waterStorage.setIcon(PIPEIMAGE.UP_IN_WATER_STORE.getImage(0, 60, 60));
+        waterStorageWithWater.setBounds(254, 150, 60, 60);
+        waterStorageWithWater.setIcon(PIPEIMAGE.UP_IN_WATER_STORE_WITH_WATER.getImage(0, 60, 60));
+
+        appendRowButton.setBounds(10, 290, 150, 70);
+        removeRowButton.setBounds(164, 290, 150, 70);
+        appendColButton.setBounds(10, 370, 150, 70);
+        removeColButton.setBounds(164, 370, 150, 70);
+        deleteButton.setBounds(10, 450, 150, 70);
+        saveButton.setBounds(164, 450, 150, 70);
         setEventLister();
 
-        for (Component component : components) {
+        switchModeButton.setFont(usingFont);
+        ControlPanel.add(switchModeButton);
+
+        for (Component component : problemComponents) {
             if (component instanceof JComponent) {
                 JComponent jComponent = (JComponent) component;
                 jComponent.setFont(usingFont);

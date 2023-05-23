@@ -120,8 +120,12 @@ public class Game {
         GameMap gameMap = getNowMap();
         Component[] components = panel.getComponents();
 
+        int originaLength = gameMap.width * gameMap.height;
+
         for (int row = 0; row < gameMap.height; row++) {
             for (int col = 0; col < gameMap.width; col++) {
+                if (originaLength != components.length)
+                    return;
                 Component component = components[row * gameMap.width + col];
                 Pipe pipe = gameMap.getPipes().get(row).get(col);
                 if (!pipe.empty && component instanceof JLabel && pipe.change) {
@@ -198,10 +202,12 @@ public class Game {
     public void switchMode() {
         editMode = !editMode;
         gamePanel.switchMode();
-        width = 5;
-        height = 5;
-        initEditPanel();
-        editGameMap = new GameMap(width, height);
+        if (editMode) {
+            width = 5;
+            height = 5;
+            initEditPanel();
+            editGameMap = new GameMap(width, height);
+        }
     }
 
     private void initEditPanel() {
@@ -212,20 +218,18 @@ public class Game {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 JLabel element = new JLabel();// 創建新的 JLabel
-                System.out.println(elementHeight + " " + elementWidth + " " + col + " " + row);
                 element.setBounds(elementWidth * col, elementHeight * row, elementWidth, elementHeight);// 計算 JLabel
                                                                                                         // 在面板應所處的座標，及給定寬度及高度
                 editPanel.add(element);// 把 JLabel 加進面板
+                element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
                 element.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        System.out.println("in");
                         element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        System.out.println("out");
                         element.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                     }
                 });
