@@ -159,17 +159,17 @@ public class GameControlPanel extends JPanel {
         checkButton.setBounds(10, 450, 150, 70);
         restrartButton.setBounds(164, 450, 150, 70);
 
-        strightPipe.setBounds(10, 80, 60, 60);
+        strightPipe.setBounds(10, 100, 60, 60);
         strightPipe.setIcon(PIPEIMAGE.STRAIGHT_PIPE.getImage(0, 60, 60));
-        bentPipe.setBounds(132, 80, 60, 60);
+        bentPipe.setBounds(132, 100, 60, 60);
         bentPipe.setIcon(PIPEIMAGE.BENT_PIPE.getImage(0, 60, 60));
-        tPipe.setBounds(254, 80, 60, 60);
+        tPipe.setBounds(254, 100, 60, 60);
         tPipe.setIcon(PIPEIMAGE.T_PIPE.getImage(0, 60, 60));
-        crossPipe.setBounds(10, 150, 60, 60);
+        crossPipe.setBounds(10, 180, 60, 60);
         crossPipe.setIcon(PIPEIMAGE.CROSS_PIPE.getImage(0, 60, 60));
-        waterStorage.setBounds(132, 150, 60, 60);
+        waterStorage.setBounds(132, 180, 60, 60);
         waterStorage.setIcon(PIPEIMAGE.UP_IN_WATER_STORE.getImage(0, 60, 60));
-        waterStorageWithWater.setBounds(254, 150, 60, 60);
+        waterStorageWithWater.setBounds(254, 180, 60, 60);
         waterStorageWithWater.setIcon(PIPEIMAGE.UP_IN_WATER_STORE_WITH_WATER.getImage(0, 60, 60));
 
         appendRowButton.setBounds(10, 290, 150, 70);
@@ -188,6 +188,13 @@ public class GameControlPanel extends JPanel {
                 JComponent jComponent = (JComponent) component;
                 jComponent.setFont(usingFont);
                 ControlPanel.add(jComponent);
+            }
+        }
+
+        for (Component component : editComponents) {
+            if (component instanceof JComponent) {
+                JComponent jComponent = (JComponent) component;
+                jComponent.setFont(usingFont);
             }
         }
 

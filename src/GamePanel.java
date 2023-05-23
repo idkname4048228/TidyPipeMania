@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
 
 import java.awt.*;
 
@@ -62,7 +61,7 @@ public class GamePanel extends JPanel {
         CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
         if (editMode) {
             cardLayout.show(mainPanel, "edit");
-        }else{
+        } else {
             cardLayout.show(mainPanel, Integer.toString(mapIndex));
         }
     }
