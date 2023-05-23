@@ -8,15 +8,22 @@ public class GameControlPanel extends JPanel {
     Game game;
     Font usingFont = new Font("微軟正黑體", Font.BOLD, 24);
 
+    JButton switchModeButton = new JButton("切換模式");
     JButton lastRoundButton = new JButton("上一關");
     JButton nextRoundButton = new JButton("下一關");
     JButton restrartButton = new JButton("重新開始");
     JButton checkButton = new JButton("確認");
 
-    Component[] components = {lastRoundButton, nextRoundButton, restrartButton,
+    Component[] components = { switchModeButton, lastRoundButton, nextRoundButton, restrartButton,
             checkButton };
 
     private void setEventLister() {
+        switchModeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                return ;
+            }
+        });
 
         checkButton.addActionListener(new ActionListener() {
             @Override
@@ -91,11 +98,12 @@ public class GameControlPanel extends JPanel {
         this.game = game;
         ControlPanel.setLayout(null);
         
+        switchModeButton.setBounds(10, 0, 304, 70);
         lastRoundButton.setBounds(10, 370, 150, 70);
         nextRoundButton.setBounds(164, 370, 150, 70);
         checkButton.setBounds(10, 450, 150, 70);
         restrartButton.setBounds(164, 450, 150, 70);
-
+        
         setEventLister();
 
         for (Component component : components) {
