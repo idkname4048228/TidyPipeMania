@@ -268,4 +268,12 @@ public class Pipe {
         return flowDirections;
     }
 
+    public void setSourceCode(String code, int degreeCode) {
+        sourceCode = code + Integer.toString(degreeCode);
+    }
+
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
 }

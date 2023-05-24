@@ -25,6 +25,7 @@ public class Game {
     boolean editMode = false;
     int width;
     int height;
+    String selectPipeCode;
 
     Game() {
         editMode = false;
@@ -110,9 +111,7 @@ public class Game {
     }
 
     private GameMap getNowMap() {
-        if (editMode)
-            return editGameMap;
-        return maps.get(nowMapIndex);
+        return editMode ? editGameMap : maps.get(nowMapIndex);
     }
 
     public void render() {
@@ -176,8 +175,6 @@ public class Game {
 
                         int clickX = e.getX();
                         nowPipe.rotate(clickX >= labelWidth / 2);
-
-                        // element.setIcon(nowPipe.getImage());// 再縮放，並設定它為 JLabel的 icon
                     }
                 });
             }
@@ -205,8 +202,9 @@ public class Game {
         if (editMode) {
             width = 5;
             height = 5;
-            initEditPanel();
+            selectPipeCode = "";
             editGameMap = new GameMap(width, height);
+            initEditPanel();
         }
     }
 
@@ -217,14 +215,18 @@ public class Game {
         int elementWidth = editPanel.getWidth() / width;
         int elementHeight = editPanel.getHeight() / height;
 
+        ArrayList<ArrayList<Pipe>> editPipes = editGameMap.getPipes();
+
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 JLabel element = new JLabel();// 創建新的 JLabel
+                Pipe pipe = editPipes.get(row).get(col);
                 element.setBounds(elementWidth * col, elementHeight * row, elementWidth, elementHeight);// 計算 JLabel
                                                                                                         // 在面板應所處的座標，及給定寬度及高度
                 editPanel.add(element);// 把 JLabel 加進面板
                 element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
                 element.addMouseListener(new MouseAdapter() {
+                    Pipe nowPipe = pipe;
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
@@ -234,9 +236,24 @@ public class Game {
                     public void mouseExited(MouseEvent e) {
                         element.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                     }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (selectPipeCode.length() != 0)
+                            nowPipe.setSourceCode(selectPipeCode, 1);
+                    }
                 });
 
             }
         }
     }
+
+    public void selectPipe(String pipeCode){
+        selectPipeCode = pipeCode;
+    }
+
+    public void cancelSelect(){
+        selectPipeCode = "";
+    }
+
 }

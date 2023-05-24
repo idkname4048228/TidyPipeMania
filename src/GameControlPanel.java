@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameControlPanel extends JPanel {
     Panel ControlPanel = new Panel();
@@ -32,6 +34,8 @@ public class GameControlPanel extends JPanel {
 
     Component[] problemComponents = { lastRoundButton, nextRoundButton, restrartButton, checkButton };
     Component[] editLabels = { strightPipe, bentPipe, tPipe, crossPipe, waterStorage, waterStorageWithWater };
+    String[] pipeCodes = { "s", "b", "t", "c", "w", "W" };
+    int nowSelectIndex = -1;
     Component[] editComponents = { appendRowButton, removeRowButton, appendColButton, removeColButton, deleteButton,
             saveButton, waterStorage, waterStorageWithWater };
 
@@ -112,6 +116,39 @@ public class GameControlPanel extends JPanel {
                 checkButton.setEnabled(true);
             }
         });
+
+        for (int i = 0; i < 6; i++) {
+            JLabel element = (JLabel) editLabels[i];
+            int index = i;
+            element.addMouseListener(new MouseAdapter() {
+                int nowIndex = index;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (nowIndex == nowSelectIndex) {
+                        game.cancelSelect();
+                        selectPipe(-1);
+                    } else {
+                        game.selectPipe(pipeCodes[nowIndex]);
+                        selectPipe(nowIndex);
+                    }
+                }
+            });
+        }
+
+    }
+
+    private void selectPipe(int index) {
+        JLabel element;
+        if (nowSelectIndex >= 0) {
+            element = (JLabel) editLabels[nowSelectIndex];
+            element.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        }
+        nowSelectIndex = index;
+        if (nowSelectIndex >= 0) {
+            element = (JLabel) editLabels[nowSelectIndex];
+            element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+        }
     }
 
     private void switchMode() {
