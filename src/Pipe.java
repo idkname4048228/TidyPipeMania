@@ -156,7 +156,8 @@ public class Pipe {
     public void waterPast(int from) {
         // 預設無法向四周流動
         // 如果下面都沒有改動到這個 array ，那代表這個水管已經有水，並且流過了，避免重複流動
-        flowDirections = new boolean[] { false, false, false, false };
+        if (!withWater)
+            flowDirections = new boolean[] { false, false, false, false };
         switch (pipeCode) {
             // 直的
             case ("s"):

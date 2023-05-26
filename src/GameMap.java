@@ -120,6 +120,9 @@ public class GameMap {
             if (nowPipe.empty)
                 continue;
             boolean[] flowDirections = nowPipe.nextDirection();
+            for(int i = 0 ; i < 4; i++){
+                System.out.println(flowDirections[i]);
+            }
 
             int[] fromDirection = new int[] { 3, 4, 1, 2 };
             boolean[] conditions = new boolean[] { pipeRow != 0, pipeCol != width - 1, pipeRow != height - 1,
@@ -138,12 +141,15 @@ public class GameMap {
                 }
 
                 int[] nextPipeCoordinate = new int[] { pipeRow + rowDiff[i], pipeCol + colDiff[i] }; // 取得下個座標
-                if (isInNextCoordinates(nextPipeCoordinate)) {// 如果座標在下次要看的座標陣列裡面
-                    continue;// 跳過這個座標
-                }
-
                 Pipe nextPipe = pipeMap.get(nextPipeCoordinate[0]).get(nextPipeCoordinate[1]);
 
+                if (isInNextCoordinates(nextPipeCoordinate)) {// 如果座標在下次要看的座標陣列裡面
+                    if (!(nextPipe.pipeCode.equals("c")// """NOT"""( 如果剛好是交叉水管
+                            && (nextPipe.degreeUnit != 3 && nextPipe.degreeUnit % 2 != i % 2))) {// 而且不是都有水，再加上水流的方向跟已經流過的方向不一樣 )
+                        continue;// 跳過這個座標
+                    }
+                }
+                System.out.println(nextPipe.pipeCode);
                 if (nextPipe.empty) {// 如果 pipe 是空的
                     waste = true;// 如果 pipe 是空的 浪費水
                     continue;// 跳過這個方向
