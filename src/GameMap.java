@@ -183,7 +183,6 @@ public class GameMap {
                 }
                 fileWriter.write("\n");
             }
-            fileWriter.write("\n");
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

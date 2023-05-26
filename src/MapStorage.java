@@ -27,6 +27,7 @@ public class MapStorage {
 		 * formattedTime = currentTime.format(formatter);
 		 * System.out.println("start time: " + formattedTime);
 		 */
+		System.out.println("reading");
 		File f = new File("src/GameMapTxtFiles/map.txt");
 		Scanner sc = null;
 		ArrayList<String> tmpArray = new ArrayList<String>();
@@ -66,6 +67,7 @@ public class MapStorage {
 			tmpArray.clear();
 			returnList.add(tmpStrArray);
 		}
+		System.out.println(returnList.size());
 		return returnList;
 	}
 

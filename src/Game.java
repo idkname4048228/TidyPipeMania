@@ -13,7 +13,7 @@ import javax.swing.border.Border;
 
 public class Game {
     GamePanel gamePanel = new GamePanel();
-    MapStorage storage = new MapStorage();
+    MapStorage storage;
     ArrayList<GameMap> maps = new ArrayList<>();
     int nowMapIndex = 0;
 
@@ -27,9 +27,16 @@ public class Game {
     int width;
     int height;
     String selectPipeCode;
+    boolean needSave = false;
+    boolean needChange = false;
 
     Game() {
         editMode = false;
+        init();
+    }
+
+    private void init() {
+        storage = new MapStorage();
         makeMaps();
         bindPanel(maps.get(nowMapIndex), gamePanel.getnowPanel());
         if (nowMapIndex != 0) {
@@ -105,6 +112,7 @@ public class Game {
     }
 
     private void makeMaps() {
+        maps = new ArrayList<>();
         for (ArrayList<ArrayList<String>> map : storage.getAllMapFiles()) {
             GameMap gameMap = new GameMap(map);
             maps.add(gameMap);
@@ -206,6 +214,10 @@ public class Game {
             selectPipeCode = "";
             editGameMap = new GameMap(width, height);
             initEditPanel();
+        } else {
+            if (needChange) {
+                init();
+            }
         }
     }
 
@@ -230,7 +242,7 @@ public class Game {
                 // 创建绿色边框
                 Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
                 element.setBorder(border);
-                
+
                 final int nowCol = col;
                 final int nowRow = row;
                 element.addMouseListener(new MouseAdapter() {
@@ -253,7 +265,7 @@ public class Game {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (selectPipeCode.length() != 0) {
-                            System.out.println("input!");
+                            needSave = true;
                             nowPipe.setSourceCode(selectPipeCode, 1);
                             nowPipe.setSize(elementWidth, elementHeight);
                             nowLabel.setIcon(nowPipe.getImage());
@@ -275,8 +287,12 @@ public class Game {
         selectPipeCode = "";
     }
 
-    public void save(){
-        editGameMap.save();
+    public void save() {
+        if (needSave) {
+            editGameMap.save();
+            needChange = true;
+        }
+
     }
 
 }
