@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -18,10 +20,10 @@ public class GameMap {
     ArrayList<int[]> waterCoordinates;
     ArrayList<int[]> nextCoordinates;
 
-    GameMap(int width, int height){
-        for (int row = 0; row < height; row++){
+    GameMap(int width, int height) {
+        for (int row = 0; row < height; row++) {
             ArrayList<Pipe> pipes = new ArrayList<>();
-            for(int col = 0; col < width; col++){
+            for (int col = 0; col < width; col++) {
                 Pipe pipe = new Pipe("--");
                 pipes.add(pipe);
             }
@@ -165,6 +167,28 @@ public class GameMap {
                 return true;
         }
         return false;
+    }
+
+    public void save() {
+        try {
+            String filename = "src/GameMapTxtFiles/map.txt";
+
+            FileWriter fileWriter = new FileWriter(filename, true);
+            fileWriter.write("\n");
+
+            for (int row = 0; row < pipeMap.size(); row++) {
+                for (int col = 0; col < pipeMap.get(0).size(); col++) {
+                    String content = pipeMap.get(row).get(col).sourceCode;
+                    fileWriter.write(content + " ");
+                }
+                fileWriter.write("\n");
+            }
+            fileWriter.write("\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

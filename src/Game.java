@@ -275,4 +275,8 @@ public class Game {
         selectPipeCode = "";
     }
 
+    public void save(){
+        editGameMap.save();
+    }
+
 }

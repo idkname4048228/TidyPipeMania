@@ -29,4 +29,4 @@ b1 t1 b1 -- -- -- -- s1
 b1 c1 b1 -- s1 b1 s1 b1
 s1 s1 -- -- t1 b1 b4 b1
 b1 t1 b1 b1 c1 t1 t1 b1
-w2 s1 t1 t1 t1 t1 b1 w1
+w2 s1 t1 t1 t1 t1 b1 W1
