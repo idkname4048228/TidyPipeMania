@@ -270,6 +270,7 @@ public class Pipe {
 
     public void setSourceCode(String code, int degreeCode) {
         sourceCode = code + Integer.toString(degreeCode);
+        init();
     }
 
     public String getSourceCode() {

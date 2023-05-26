@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+import javax.swing.border.Border;
 
 public class Game {
     GamePanel gamePanel = new GamePanel();
@@ -224,23 +225,41 @@ public class Game {
                 element.setBounds(elementWidth * col, elementHeight * row, elementWidth, elementHeight);// 計算 JLabel
                                                                                                         // 在面板應所處的座標，及給定寬度及高度
                 editPanel.add(element);// 把 JLabel 加進面板
-                element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
+                element.setLayout(null);
+                element.setBounds(elementWidth * col, elementHeight * row, elementWidth, elementHeight);
+                // 创建绿色边框
+                Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+                element.setBorder(border);
+                
+                final int nowCol = col;
+                final int nowRow = row;
                 element.addMouseListener(new MouseAdapter() {
                     Pipe nowPipe = pipe;
+                    JLabel nowLabel = element;
+
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        element.setBorder(BorderFactory.createLineBorder(Color.GREEN, 10));
+                        nowLabel.setBounds(elementWidth * nowCol, elementHeight * nowRow, elementWidth, elementHeight);
+                        // 创建绿色边框
+                        Border border = BorderFactory.createLineBorder(Color.GREEN, 2);
+                        nowLabel.setBorder(border);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        element.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        element.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                     }
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (selectPipeCode.length() != 0)
+                        if (selectPipeCode.length() != 0) {
+                            System.out.println("input!");
                             nowPipe.setSourceCode(selectPipeCode, 1);
+                            nowPipe.setSize(elementWidth, elementHeight);
+                            nowLabel.setIcon(nowPipe.getImage());
+                        }
+
+                        System.out.println("nowPipe code: " + selectPipeCode + " " + nowPipe.sourceCode);
                     }
                 });
 
@@ -248,11 +267,11 @@ public class Game {
         }
     }
 
-    public void selectPipe(String pipeCode){
+    public void selectPipe(String pipeCode) {
         selectPipeCode = pipeCode;
     }
 
-    public void cancelSelect(){
+    public void cancelSelect() {
         selectPipeCode = "";
     }
 
